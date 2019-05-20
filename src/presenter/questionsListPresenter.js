@@ -1,23 +1,32 @@
+import question from "../model/question";
 
 
-
-class QuestionsListPresenter{
-    onCreateQuestion(){
+class QuestionsListPresenter {
+    onCreateQuestion() {
         window.location.assign("#/create-question");
     }
 
-    onViewTags(index){
+    onViewTags(index) {
         window.location.assign("#/question-details/" + index);
     }
 
-    onFilterByTag(){
-        window.location.assign("#/filter-by-tag");
+    onSearch(searchWord) {
+        question.changeSearch(searchWord);
+
     }
 
-    onFilterByTitle(){
-        window.location.assign("#/filter-by-title");
+    onFilterByTag() {
+        question.filterByTag();
+        window.location.assign("#/filter-by-tag/" + question.state.search);
+        question.changeSearch("");//the search is reset to empty
     }
-    
+
+    onFilterByTitle() {
+        question.filterByTitle(question.state.search);
+        window.location.assign("#/filter-by-title/" + question.state.search);
+        question.changeSearch("");
+    }
+
 }
 
 const questionsListPresenter = new QuestionsListPresenter();

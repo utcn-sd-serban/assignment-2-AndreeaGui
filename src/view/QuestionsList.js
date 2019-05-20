@@ -1,49 +1,32 @@
 
 import React from "react";
+import DumbQuestionsList from "./DumbQuestionsList";
 
-const QuestionsList = ({questions, onCreateQuestion, onViewTags, onFilterByTag, onFilterByTitle}) => (
-    <div>
-        <h2>Questions</h2>
-        <br/> <br/> 
-        <label>Search: </label>
-            <input //value={search} onSearch={ e =>onSearch("userId",e.target.value)}
+const QuestionsList = ({ questions, onCreateQuestion, onViewTags, onFilterByTag, onFilterByTitle,
+    search, onSearch }) => (
+        <div className="container has-background-primary">
+            <h2 className="title is-1 is-centerd">Questions</h2>
+            <br /> <br />
+            <label className="subtitle is-4">Search: </label>
+            <input className="input is-medium" type="text" placeholder="Title/Tag"
+                value={search} onChange={e => onSearch(e.target.value)}
             />
-        <br />
-        <button onClick = {onFilterByTag}>Filter questions by tag</button>
-        <br/> 
-        <button onClick = {onFilterByTitle}>Filter questions by title</button>
-        <br/> <br/> 
-        <table border = "1">
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Title</th>
-                    <th>Text</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-            {
-                questions.map((question, index) => (
-                    <tr key = {index}>
-                        <td>{ question.userId }</td>
-                        <td>{ question.title }</td>
-                        <td>{ question.text }</td>
-                        <td>
-                            <button onClick ={() => onViewTags(index)}>
-                                View tags
-                            </button>
-                        </td>
-                    </tr>
-                ))
-            }
-            </tbody>
-        </table>
-        <br/>
-        <button onClick = {onCreateQuestion}>Add new question</button>
-        
-        
-    </div>
-);
+            <br />
+            <button className="button is-light is-outlined"
+                onClick={onFilterByTag}>Filter questions by tag</button>
+            <br />
+            <button className="button is-light is-outlined"
+                onClick={onFilterByTitle}>Filter questions by title</button>
+            <br /> <br />
+            < DumbQuestionsList
+                onViewTags={onViewTags}
+                questions={questions} />
+            <br />
+            <button className="button is-light is-outlined"
+                onClick={onCreateQuestion}>Add new question</button>
+
+
+        </div>
+    );
 
 export default QuestionsList;

@@ -1,8 +1,8 @@
 
-import {EventEmitter} from "events";
+import { EventEmitter } from "events";
 
-class Question extends EventEmitter{
-    constructor(){
+class Question extends EventEmitter {
+    constructor() {
         super();
         this.state = {
             questions: [{
@@ -28,12 +28,13 @@ class Question extends EventEmitter{
                 text: "",
                 tags: []
             },
-            
+            search: "",
+            filteredQuestions: []
         };
     }
-    
 
-    addQuestion(userId, title, text, tags){
+
+    addQuestion(userId, title, text, tags) {
         this.state = {
             ...this.state,
             questions: this.state.questions.concat(
@@ -41,7 +42,7 @@ class Question extends EventEmitter{
                     userId: userId,
                     title: title,
                     text: text,
-                    tags: tags 
+                    tags: tags
                 }]
             )
 
@@ -49,18 +50,43 @@ class Question extends EventEmitter{
         this.emit("change", this.state);
     }
 
-    changeNewQuestionProperty(property, value){
+    changeNewQuestionProperty(property, value) {
         this.state = {
             ...this.state,
             newQuestion: {
                 ...this.state.newQuestion,
-                [property]:value
+                [property]: value
             }
 
         };
 
-        //funtion of the EventEmitter class; 1st is the event and 2nd a prameter
         this.emit("change", this.state);
+    }
+
+    changeSearch(newSearch) {
+        this.state = {
+            ...this.state,
+            search: newSearch
+
+        };
+
+        this.emit("change", this.state);
+    }
+
+    filterByTitle(filterTitle) {
+
+        let filteredQuestions = this.state.questions.filter(
+            question => question.title.includes(filterTitle));
+        this.state = {
+            ...this.state,
+            filteredQuestions: filteredQuestions
+
+        };
+
+    }
+
+    filterByTag() {
+        //TBA
     }
 }
 

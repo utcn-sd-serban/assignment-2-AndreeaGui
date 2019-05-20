@@ -1,37 +1,34 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import question from "../model/question";
 import questionsListPresenter from "../presenter/questionsListPresenter";
-import FilterQuestionsByTag from "./FilterQuestionsByTag";
+import DumbQuestionsList from "./DumbQuestionsList";
 
 
 
 const mapModelStateToComponentState = modelState => ({
     questions: modelState.questions,
-   
+
 });
 
-export default class SmartFilterQuestionsByTag extends Component{
-    constructor(){
+export default class SmartFilterQuestionsByTag extends Component {
+    constructor() {
         super();
         this.state = mapModelStateToComponentState(question.state);
         this.listener = modelState => this.setState(mapModelStateToComponentState(modelState));
         question.addListener("change", this.listener);
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         question.removeListener("change", this.listener);
         //prevent memory leacks
     }
 
     //the render method - shows the things
-    render(){
+    render() {
         return (
-            <FilterQuestionsByTag 
+            <DumbQuestionsList
                 onViewTags={questionsListPresenter.onViewTags}
-                onCreateQuestion={questionsListPresenter.onCreateQuestion}
-                onFilterByTag = {questionsListPresenter.onFilterByTag}
-                onFilterByTitle = {questionsListPresenter.onFilterByTitle}
-                questions = {this.state.questions} />
-        );    
+                questions={this.state.questions} />
+        );
     }
 }
